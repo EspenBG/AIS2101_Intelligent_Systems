@@ -188,8 +188,8 @@ if enable_sugeno:
     FC.set_crisp_output_value("open_fast", 0.6)
 
 #%%
-#surface_plot_3d(FC, ["temp", "flow", "cold"], [[-20, 20], [-1, 1], [-1, 1]], sugeno=enable_sugeno)
-#surface_plot_3d(FC, ["temp", "flow", "hot"], [[-20, 20], [-1, 1], [-1, 1]], sugeno=enable_sugeno)
+surface_plot_3d(FC, ["temp", "flow", "cold"], [[-20, 20], [-1, 1], [-1, 1]], sugeno=enable_sugeno)
+surface_plot_3d(FC, ["temp", "flow", "hot"], [[-20, 20], [-1, 1], [-1, 1]], sugeno=enable_sugeno)
 
 #%% md
 ### CLASS: WaterValve
