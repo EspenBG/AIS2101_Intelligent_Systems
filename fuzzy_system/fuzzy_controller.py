@@ -17,6 +17,7 @@ from scipy import signal as sig
 #%%
 # Enable Sugeno inference
 enable_sugeno = False
+disable_plot = True
 
 #%%
 def surface_plot_3d(sys, ling_vars: list, domain=None, divisions=20, sugeno=False, computation_only=False):
@@ -103,7 +104,8 @@ temp_lv = fs.LinguisticVariable([temp_t1, temp_t2, temp_t3], universe_of_discour
 FC.add_linguistic_variable("temp", temp_lv)
 
 # Plot the variable
-FC.plot_variable("temp")
+if not disable_plot:
+    FC.plot_variable("temp")
 
 #%%
 # Linguistic variable flow
@@ -116,7 +118,8 @@ flow_lv = fs.LinguisticVariable([flow_f1, flow_f2, flow_f3], universe_of_discour
 FC.add_linguistic_variable("flow", flow_lv)
 
 # Plot the variable
-FC.plot_variable("flow")
+if not disable_plot:
+    FC.plot_variable("flow")
 
 #%%
 # Linguistic variable for hot water and cold water
@@ -134,12 +137,13 @@ FC.add_linguistic_variable("hot", water_hot)
 FC.add_linguistic_variable("cold", water_cold)
 
 # Plot the variable
-FC.plot_variable("hot")
-FC.plot_variable("cold")
+if not disable_plot:
+    FC.plot_variable("hot")
+    FC.plot_variable("cold")
 
 #%%
 # Make a figure to see all the linguistic variables (used in the hand-in)
-FC.produce_figure("controller_ling_var.png", max_figures_per_row=2)
+#FC.produce_figure("fuzzy_system/controller_ling_var.png", max_figures_per_row=2)
 
 #%% md
 ### Rulebase
@@ -188,8 +192,9 @@ if enable_sugeno:
     FC.set_crisp_output_value("open_fast", 0.6)
 
 #%%
-surface_plot_3d(FC, ["temp", "flow", "cold"], [[-20, 20], [-1, 1], [-1, 1]], sugeno=enable_sugeno)
-surface_plot_3d(FC, ["temp", "flow", "hot"], [[-20, 20], [-1, 1], [-1, 1]], sugeno=enable_sugeno)
+if not disable_plot:
+    surface_plot_3d(FC, ["temp", "flow", "cold"], [[-20, 20], [-1, 1], [-1, 1]], sugeno=enable_sugeno)
+    surface_plot_3d(FC, ["temp", "flow", "hot"], [[-20, 20], [-1, 1], [-1, 1]], sugeno=enable_sugeno)
 
 #%% md
 ### CLASS: WaterValve
@@ -319,20 +324,22 @@ for t in np.arange(time.size):
 ### Present the results
 #%%
 # Make a plot for the flow and flow setpoint
-plt.figure()
-plt.plot(time, flow)
-plt.plot(time, flow_setpoint)
-plt.ylim([0, 1])
-plt.legend(["flow", "setpoint"])
-plt.grid(True)
+if not disable_plot:
+    plt.figure()
+    plt.plot(time, flow)
+    plt.plot(time, flow_setpoint)
+    plt.ylim([0, 1])
+    plt.legend(["flow", "setpoint"])
+    plt.grid(True)
 
 # Make a plot for the temperature and temperature setpoint
-plt.figure()
-plt.plot(time, temp, label="temperature")
-plt.plot(time, temp_setpoint, label="setpoint")
-plt.ylim([0, 30])
-plt.legend(["temperature", "setpoint"])
-plt.grid(True)
+if not disable_plot:
+    plt.figure()
+    plt.plot(time, temp, label="temperature")
+    plt.plot(time, temp_setpoint, label="setpoint")
+    plt.ylim([0, 30])
+    plt.legend(["temperature", "setpoint"])
+    plt.grid(True)
 
 # Print the max temperature, to compare with the result from MATLAB
 print("The max temperature is: ", temp.max())
