@@ -231,19 +231,21 @@ class PermutationGA:
         # Get the parents to the new population
         new_parents = self.select_new_parents(num_parents, self.population, self.population_cost)
 
-        parents = np.reshape(new_parents.shape[0]*2, self.chromosome_len)
+        parents = new_parents.reshape((new_parents.shape[0]*2, self.chromosome_len))
         parents = np.array(parents[:][:num_new_chromosome])
 
         children = self.crossover(new_parents, num_new_chromosome)
-        children = self.mutation(children)
+        children = self.mutation(children, self.mutation_rate)
         elites = self.get_elites()
 
-        padding = np.array()
         if (num_new_chromosome*2 + self.elite_num) < self.pop_num:
-            num_of_pad = self.pop_num - (num_parents + num_new_chromosome + self.elite_num)
-            padding = self.select_new_parents(num_of_pad, self.population, self.population_cost)
-            padding = np.reshape(padding.shape[0]*2, self.chromosome_len)
+            num_of_pad = self.pop_num - (num_new_chromosome*2 + self.elite_num)
+            padding = self.select_new_parents(num_of_pad + num_of_pad % 2, self.population, self.population_cost)
+            padding = padding.reshape((padding.shape[0]*2, self.chromosome_len))
+            padding = np.array(padding[:][:num_of_pad])
+
             new_population = np.vstack((parents, children, elites, padding))
+
         else:
             new_population = np.vstack((parents, children, elites))
 
