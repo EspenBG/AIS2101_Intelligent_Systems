@@ -1,4 +1,3 @@
-import numpy as np
 import csv
 
 file = open("glass.data")
@@ -21,5 +20,3 @@ with open('glass.csv', 'w') as f:
     write = csv.writer(f)
 
     write.writerows(data)
-
-print("")
